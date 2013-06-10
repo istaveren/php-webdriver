@@ -74,7 +74,19 @@ abstract class Container extends AbstractWebDriver
             );
         }
 
-        return $this->webDriverElement($results['value']);
+        $results = $this->webDriverElement($results['value']);
+ 
+        if (!$results)
+        {
+          throw WebDriverException::factory(WebDriverException::NO_SUCH_ELEMENT,
+                sprintf(
+                    'webDriverElement returned null %s, %s',
+                    $locatorJson['using'],
+                    $locatorJson['value']) . "\n\n"
+            );
+        }
+ 
+        return $results;
     }
 
     /**
